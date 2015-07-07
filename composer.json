@@ -15,6 +15,6 @@
     ],
 	"version" : "v0.0.1",
 	"require" : {
-		"CHGLongStone/mysql-db-sync" : "dev"
+		"CHGLongStone/mysql-db-sync" : "dev-master"
 	}
 }

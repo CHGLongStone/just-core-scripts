@@ -1,3 +1,5 @@
+composer.lock
+composer.phar
 email_config.sh
 env_config.sh
-
+lib/*
