@@ -1,0 +1,21 @@
+#!/bin/bash
+# email_config.sh
+#
+# Utilities (version 1)
+# Jason Medland <jason.medland@gmail.com>
+##########################################
+# save this file to email_config.sh
+# then modify your entries
+#
+#
+##########################################
+
+#######################################
+# global email options
+#######################################
+
+sender_email='user@domain.com'
+receiver_emails='user@domain.com'
+thisScript="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+thisUser="$(whoami)"
+subjectPreface='notification_email-'

@@ -1,0 +1,30 @@
+#!/bin/bash
+# env_config.sh
+#
+# Utilities (version 1)
+# Jason Medland <jason.medland@gmail.com>
+##########################################
+# save this file to env_config.sh
+# then modify your entries
+#
+#
+##########################################
+
+#######################################
+# ENVIRONMENTS
+# LIST OF ALL, stays managed under sourcecontrol
+#######################################
+
+# All env path specifications
+dev="/var/www/vhosts/dev/"
+prod="/var/www/vhosts/prod/"
+
+release_dir="/var/www/vhosts/prod_release/"
+
+project_path="git@github.com:user/project_name.git"
+
+#shell_user_name
+app_user="shell_user_name"
+
+#shell_user_group
+app_group="apache"
