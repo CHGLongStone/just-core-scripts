@@ -1,0 +1,12 @@
+{
+	"name" : "just-core/scripts",
+	"description" : "management scripts ",
+	"license" : "GNU",
+	"keywords" : [
+		"scripts",
+		"management",
+		"just-core"
+	],
+	"version" : "0.0.1"
+
+}
