@@ -126,6 +126,7 @@ cp "$prod_dir"/update_notice.php "$prod_dir"/update.php
 #	* updates composer in the new checkout 
 #######################################
 echo -e "${green}EXECUTING COMPOSER INSTALL  ${NC}'"$tval"'"
+curl -sS https://getcomposer.org/installer | php
 composer_self_update_notes=`php composer.phar self-update`
 composer_install_notes=`php composer.phar install`
 composer_update_notes=`php composer.phar update`
