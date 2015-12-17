@@ -6,3 +6,6 @@ db_config.dev
 db_config.prod
 db_config.uat
 lib/*
+*.patch.sql
+*.revert.sql
+*schemasync*log*

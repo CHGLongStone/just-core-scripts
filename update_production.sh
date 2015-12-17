@@ -36,6 +36,7 @@ function usage(){
 	
 	\033[1m OPTIONS:\033[0m 
 	\033[1m	-h \033[0m     Show this message
+	\033[1m	-e \033[0m     environment name [uat/prod]
 	\033[1m	-t \033[0m     tag name
 	\033[1m	-m \033[0m     execute MySQL update in v#.data.sql [Y]
 	
@@ -52,13 +53,15 @@ tflag=
 
 
 #echo -e ${BLUE}"$0 $#args[$@] OPTIND[$OPTIND] OPTARG[$OPTARG]"${NC}
-while getopts ":v:t:m:h" name; do
+while getopts ":v:e:t:m:h" name; do
 	echo -e "		${purple}FLAG:" $name "VALUE: $OPTARG${NC}"
 	#execution_string=$execution_string" -"$name" $OPTARG"
 	case $name in
 		v)  vflag=1
 			VERBOSE_OUT="$OPTARG"
 			vval="$OPTARG";;	
+		e)  eflag=1
+			eval="$OPTARG";;
 		t)  tflag=1
 			tval="$OPTARG";;
 		m)  mflag=1
@@ -82,25 +85,35 @@ fi
 
 #	* checking out the release tag into directory `[project_name]_release/[release_tag]`
 
-$release_dir 
+#$checkout_dir #env_config.sh release_dir
+if [ ! -z "$eflag" ] && [ "uat" == $eval ]; then
+	echo -e "${green}Using ENVIRONMENT  ${NC}$eval "
+	checkout_dir=$candidate_dir
+	http_serve_path=$uat_dir
+else
+	echo -e "${green}Using ENVIRONMENT  ${NC} PROD "
+	checkout_dir=$release_dir
+	http_serve_path=$prod_dir
+fi
+echo -e "${green}checkout_dir[$checkout_dir] http_serve_path[$http_serve_path] ${NC} PROD "
 
 #######################################
 #check out the project
 #######################################
-cd $release_dir
+cd $checkout_dir
 
-if [[ "$release_dir" == "$PWD" ]]; then
-	echo -e "${GREEN}GO TO WORK HERE${NC} PWD-" $PWD "   release_dir-" $release_dir
-	#ls -lah $release_dir
+if [[ "$checkout_dir" == "$PWD" ]]; then
+	echo -e "${GREEN}GO TO WORK HERE${NC} PWD-" $PWD "   checkout_dir-" $checkout_dir
+	#ls -lah $checkout_dir
 else
-	echo -e "${red}NO WORKING DIRECTORY GIVEN${NC} PWD-" $PWD "   release_dir-" $release_dir
+	echo -e "${red}NO WORKING DIRECTORY GIVEN${NC} PWD-" $PWD "   checkout_dir-" $checkout_dir
 	usage
 	exit 2
 fi
 #######################################
 # VERIFY THE RELEASE DOESNT ALREADY EXIST
 #######################################
-INSTALL_PATH=$release_dir/$tval 
+INSTALL_PATH=$checkout_dir/$tval 
 if [[ -d $INSTALL_PATH ]]; then
 	echo -e "${red}CAN NOT RE-INSTALL $tval ${NC}" 
 	exit 1
@@ -112,14 +125,14 @@ fi
 echo -e "${green}EXECUTING GIT CLONE  ${NC}'"$tval"'"
 git clone  $project_path "$tval"
 
-cd $release_dir/$tval
+cd $checkout_dir/$tval
 git checkout $tval
 
 #######################################
 #	* setting a maintenance notice in the existing `[project_name]/` directory 
 #######################################
 
-cp "$prod_dir"/update_notice.php "$prod_dir"/update.php 
+cp "$http_serve_path"/update_notice.php "$http_serve_path"/update.php 
 
 #######################################
 #initialize the project
@@ -142,21 +155,29 @@ composer_update_notes=`php composer.phar update`
 #######################################
 echo -e "${green}UPDATING CONFIGURATION FILES  ${NC}'"$tval"'"
 
-cp -R -f $release_dir/$tval/CONFIG/AUTOLOAD/*.global.php $release_dir/cfg/
+cp -R -f $checkout_dir/$tval/CONFIG/AUTOLOAD/*.global.php $checkout_dir/cfg/
 
 
 #######################################
 #	* creating the symlink `AUTOLOAD -> ../../cfg`
 #######################################
-rm -R -f $release_dir/$tval/CONFIG/AUTOLOAD
-ln -s $release_dir/cfg/ $release_dir/$tval/CONFIG/AUTOLOAD
+rm -R -f $checkout_dir/$tval/CONFIG/AUTOLOAD
+ln -s $checkout_dir/cfg/ $checkout_dir/$tval/CONFIG/AUTOLOAD
+
+
+
+#######################################
+# check out the documentation
+#######################################
+cd $checkout_dir/$tval
+git clone  git@github.com:CHGLongStone/blackwatch.wiki.git blackwatch.wiki
 
 
 #######################################
 #	* doing any database operations
 #######################################
 if [ ! -z "$mflag" ] && [ "$mval" == "Y" ]; then
-	file="$release_dir/$tval/data/updates/$tval.schema.sql"
+	file="$checkout_dir/$tval/data/updates/$tval.schema.sql"
 	echo -e "${green}EXECUTING SQL UPDATE WTIH ${NC} $file"   
 	[ -f $file ] && SQLUPDATE=`mysql --defaults-file=$DIR/lib/chglongstone/mysql-db-sync/my.prod.cnf <  "$file" 2>&1;`
 	echo -e "${green}UPDATE RESULT ${NC} $SQLUPDATE"   
@@ -167,7 +188,7 @@ fi
 
 
 if [ ! -z "$mflag" ] && [ "$mval" == "Y" ]; then
-	file=" $release_dir/$tval/data/updates/$tval.data.sql"
+	file=" $checkout_dir/$tval/data/updates/$tval.data.sql"
 	echo -e "${green}EXECUTING SQL UPDATE WTIH ${NC} $file"   
 	[ -f $file ] && SQLUPDATE=`mysql --defaults-file=$DIR/lib/chglongstone/mysql-db-sync/my.prod.cnf <  "$file" 2>&1;`
 	echo -e "${green}UPDATE RESULT ${NC} $SQLUPDATE"   
@@ -180,9 +201,9 @@ fi
 #	* deleting and recreating the symlink `[project_name]_release/current` to the updated release version
 #######################################
 echo $tval > build.txt
-rm -R -f $release_dir/current
-ln -s $release_dir/$tval $release_dir/current
-chown $app_user:$app_group -R $release_dir
+rm -R -f $checkout_dir/current
+ln -s $checkout_dir/$tval $checkout_dir/current
+chown $app_user:$app_group -R $checkout_dir
 
 #######################################
 #	* maintenance notice is automatically taken down
