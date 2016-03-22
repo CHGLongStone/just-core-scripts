@@ -167,7 +167,7 @@ ln -s $checkout_dir/cfg/ $checkout_dir/$tval/CONFIG/AUTOLOAD
 
 
 #######################################
-# check out the documentation
+# check out the documentation...or anything external to the core application
 #######################################
 cd $checkout_dir/$tval
 git clone  git@github.com:CHGLongStone/blackwatch.wiki.git blackwatch.wiki
