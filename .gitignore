@@ -5,6 +5,7 @@ env_config.sh
 db_config.dev
 db_config.prod
 db_config.uat
+mysql-sync-db.sh
 lib/*
 *.patch.sql
 *.revert.sql
