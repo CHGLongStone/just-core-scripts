@@ -1,6 +1,6 @@
 {
 	"name" : "just-core/scripts",
-	"description" : "management scripts ",
+	"description" : "management scripts for the just-core/* set of projects, basic release management stuff, db syncronization",
 	"license" : "GNU",
 	"keywords" : [
 		"scripts",
