@@ -1,0 +1,8 @@
+#!/bin/bash
+declare -A hostdata
+
+hostdata[SERVER]="127.0.0.1"
+hostdata[DATABASE]="database_name"
+hostdata[USER]="USER"
+hostdata[PASS]="PASS"
+hostdata[PORT]=3306

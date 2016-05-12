@@ -49,7 +49,12 @@ the production release script will follow the routine of
 
 
 
+##Installation of this package
 
+```
+# install.sh
+# install_config.sh
+```
 
 
 
