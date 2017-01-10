@@ -40,7 +40,7 @@ function usage(){
 	
 	 OPTIONS:
 	\033[1m	-h \033[0m     Show this message
-	\033[1m	-m \033[0m     passthrough arg --tag=
+	\033[1m	-n \033[0m     passthrough arg --tag=
 	\033[1m	-d \033[0m     passthrough arg --output-directory=
 	\033[1m	-l \033[0m     log directory 
 							(local $DIR  if not otherwise specified)
@@ -69,7 +69,7 @@ OPTS_MAPPING["v"]="verbose"
 OPTS_MAPPING["d"]="output Directory"
 OPTS_MAPPING["l"]="Log directory"
 OPTS_MAPPING["n"]="tag Name"
-OPTS_MAPPING["r"]="verbose"
+OPTS_MAPPING["r"]="redirect"
 OPTS_MAPPING["s"]="source db"
 OPTS_MAPPING["t"]="target db"
 OPTS_MAPPING["h"]="usage"
@@ -215,8 +215,8 @@ rm -f $DIR/*$sflag*.sql $LOG_DIR/schemasync.log
 # one to the other.
 ########################################
 file="$DIR/db_config.$sval"
-#echo "file $file"
-#echo "hostdata $hostdata"
+echo "file $file"
+echo "hostdata $hostdata"
 
 if [ -f $file ]; then 
 	source $file
@@ -261,6 +261,7 @@ fi
 #
 #echo -e "${CYAN}revert: $OUTPUT_PATH_FINAL/${hostdata[DATABASE]}_${mval//.}.*.patch.sql ${NC}"
 #######################################
+echo -e "${GREEN} patch $tval FROM $sval  ${NC}"
 set=`chmod 1755 $OUTPUT_PATH_FINAL/${hostdata[DATABASE]}_*.sql 2> /dev/null`
 patch=`ls  $OUTPUT_PATH_FINAL/${hostdata[DATABASE]}_${mval//.}.*.patch.sql 2> /dev/null`
 revert=`ls $OUTPUT_PATH_FINAL/${hostdata[DATABASE]}_${mval//.}.*.revert.sql 2> /dev/null`
@@ -275,16 +276,16 @@ revert=`ls $OUTPUT_PATH_FINAL/${hostdata[DATABASE]}_${mval//.}.*.revert.sql 2> /
 #######################################
 if [ -f "${patch}" ]; then
 	#patch_new="$OUTPUT_PATH_FINAL/$mval.patch.sql"
-	patch_result=` cp -R ${patch}	$OUTPUT_PATH_FINAL/$mval.patch.sql`
-	revert_result=`cp -R ${revert}	$OUTPUT_PATH_FINAL/$mval.revert.sql`
+	patch_result=` cp -R ${patch}	$OUTPUT_PATH_FINAL/$mval.patch.$tval.from.$sval.sql`
+	revert_result=`cp -R ${revert}	$OUTPUT_PATH_FINAL/$mval.revert.$tval.from.$sval.sql`
 	#echo -e "${YELLOW} REVERT: ${revert} $OUTPUT_PATH_FINAL/$mval.revert.sql ${NC}"
 	set=`chmod 1755 $OUTPUT_PATH_FINAL/${hostdata[DATABASE]}_*.sql 2> /dev/null`
    
 	echo -e "${CYAN}";
 	echo	"	Files created. ";
 	echo	"	Check into Source Control ";
-	echo 	"	$OUTPUT_PATH_FINAL/$mval.patch.sql ";
-	echo 	"	$OUTPUT_PATH_FINAL/$mval.revert.sql ";
+	echo 	"	$OUTPUT_PATH_FINAL$mval.patch.$tval.from.$sval.sql ";
+	echo 	"	$OUTPUT_PATH_FINAL$mval.revert.$tval.from.$sval.sql ";
 	echo -e "${NC}";
    
 	# clean up temp files
