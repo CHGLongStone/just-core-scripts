@@ -177,21 +177,25 @@ git clone  git@github.com:CHGLongStone/blackwatch.wiki.git blackwatch.wiki
 #	* doing any database operations
 #######################################
 if [ ! -z "$mflag" ] && [ "$mval" == "Y" ]; then
-	file="$checkout_dir/$tval/data/updates/$tval.schema.sql"
+	#file="$checkout_dir/$tval/data/updates/$tval.schema.sql"
+	#file="$checkout_dir/$tval/data/updates/$tval"_"$eval.patch.sql" 
+	#v1.0.3 	/v1.0.3.patch.uat.from.dev.sql
+	file="$checkout_dir/$tval/data/updates/$tval.patch.$eval.from.dev.sql"
 	echo -e "${green}EXECUTING SQL UPDATE WTIH ${NC} $file"   
 	[ -f $file ] && SQLUPDATE=`mysql --defaults-file=$DIR/lib/chglongstone/mysql-db-sync/my.prod.cnf <  "$file" 2>&1;`
 	echo -e "${green}UPDATE RESULT ${NC} $SQLUPDATE"   
-	
+	SQLUPDATE=""
 else
 	echo -e "${red}NO SQL SCHEMA CHANGE EXECUTED${NC}" 
 fi
 
 
 if [ ! -z "$mflag" ] && [ "$mval" == "Y" ]; then
-	file=" $checkout_dir/$tval/data/updates/$tval.data.sql"
+	file=" $checkout_dir/$tval/data/updates/$tval.data.$eval.from.dev.sql"
 	echo -e "${green}EXECUTING SQL UPDATE WTIH ${NC} $file"   
 	[ -f $file ] && SQLUPDATE=`mysql --defaults-file=$DIR/lib/chglongstone/mysql-db-sync/my.prod.cnf <  "$file" 2>&1;`
 	echo -e "${green}UPDATE RESULT ${NC} $SQLUPDATE"   
+	SQLUPDATE=""
 	
 else
 	echo -e "${red}NO SQL RECORD UPDATE EXECUTED${NC}" 
