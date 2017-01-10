@@ -27,4 +27,5 @@ project_path="git@github.com:user/project_name.git"
 app_user="shell_user_name"
 
 #shell_user_group
-app_group="apache"
+#app_group="apache"
+app_group="nobody"
