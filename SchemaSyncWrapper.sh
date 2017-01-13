@@ -14,7 +14,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-OUTPUT_PATH="/var/www/vhosts/blackwatch_dev/data/updates/"
+OUTPUT_PATH="./data/updates/"
 
 #######################################
 # load the utils script
