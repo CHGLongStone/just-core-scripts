@@ -16,5 +16,10 @@
 	"version" : "v0.0.1",
 	"require" : {
 		"CHGLongStone/mysql-db-sync" : "dev-master"
-	}
+	},
+ 	"scripts": {
+        "post-install-cmd": [
+			"./install.sh"
+		]
+    }
 }
