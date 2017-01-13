@@ -33,12 +33,11 @@ function usage(){
 	- git clone a copy of trunk/master
 	- create a branch for the user
 	- set vhost configuration
-	
-	\033[1m OPTIONS:\033[0m 
-	\033[1m	-h \033[0m     Show this message
-	\033[1m	-e \033[0m     environment name [uat/prod]
-	\033[1m	-t \033[0m     tag name
-	\033[1m	-m \033[0m     execute MySQL update in v#.data.sql [Y]
+
+	${YELLOW} OPTIONS:${NC}
+	${YELLOW}	-h ${yellow}     Show this message
+	${YELLOW}	-t ${yellow}     tag name
+	${YELLOW}	-m ${yellow}     execute MySQL update in v#.data.sql [Y]
 	
 	"
 }

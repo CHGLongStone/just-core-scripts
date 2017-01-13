@@ -48,9 +48,12 @@ the production release script will follow the routine of
 * deleting and recreating the symlink `[project_name]_release/current` to the updated release version
 * maintenance notice is automatically taken down
 
+##Installation of this package
 
-## install.sh 
-
+```
+# install.sh
+# install_config.sh
+```
 
 
 
