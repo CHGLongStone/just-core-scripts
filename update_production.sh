@@ -203,7 +203,7 @@ fi
 #######################################
 #	* deleting and recreating the symlink `[project_name]_release/current` to the updated release version
 #######################################
-echo $tval > build.txt
+echo $tval > $checkout_dir/$tval/build.txt
 rm -R -f $checkout_dir/current
 ln -s $checkout_dir/$tval $checkout_dir/current
 chown $app_user:$app_group -R $checkout_dir
