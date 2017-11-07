@@ -2,11 +2,12 @@ composer.lock
 composer.phar
 email_config.sh
 env_config.sh
-db_config.dev
-db_config.prod
-db_config.uat
-db_config.publisher
-db_config.sevenV
+db_config.*
+#db_config.dev
+#db_config.prod
+#db_config.uat
+#db_config.publisher
+#db_config.sevenV
 mysql-sync-db.sh
 lib/*
 *.patch.sql
