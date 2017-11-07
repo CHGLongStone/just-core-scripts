@@ -10,3 +10,4 @@ lib/*
 *.revert.sql
 *schemasync*log*
 ___vendor/*
+phpDocumentor.phar
