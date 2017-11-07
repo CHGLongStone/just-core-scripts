@@ -1,21 +1,25 @@
 {
-	"name" : "just-core/scripts",
-	"description" : "management scripts for the just-core eco system, basic release management stuff, db syncronization some other things",
-	"license" : "GNU",
-	"keywords" : [
+	"name": "just-core/scripts",
+	"description": "management scripts for the just-core eco system, basic release management stuff, db syncronization some other things",
+	"license": "GNU",
+	"keywords": [
 		"scripts",
 		"management",
 		"just-core"
 	],
-	"repositories": [
-		 {
-        		 "type": "vcs",
-        		  "url": "https://github.com/CHGLongStone/mysql-db-sync"
-        	}
-	  ],
-	"version" : "v0.0.1",
-	"require" : {
-		"CHGLongStone/mysql-db-sync" : "dev-master"
+	"repositories": [{
+			"type": "vcs",
+			"url": "https://github.com/CHGLongStone/mysql-db-sync"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/mmatuson/SchemaSync"
+		}
+	],
+	"version": "v0.0.1",
+	"require": {
+		"CHGLongStone/mysql-db-sync": "dev-master",
+		"mmatuson/SchemaSync": "dev-master"
 	},
 	"suggest": {
 		"just-core/foundation": "PHP Enterprise (HA) High Availability Framework, develop quick and simple, deploy quick and consistent",

@@ -118,7 +118,7 @@ fi
 #######################################
 # SCHEMA SYNCRONIZATION
 # SchemaSyncWrapper.sh
-#
+# PREREQUISITE: http://mmatuson.github.io/SchemaSync/install.htm
 # DB Differentiation
 # this can work upstream/downstream to diff the schema of your data stores
 # basic MySQL connections.
@@ -130,10 +130,21 @@ fi
 # 
 # you will still propagate to environments in a serial fashion
 # 
-#
+# 
 # 
 #######################################
 
+file="lib/mmatuson/SchemaSync"
+if [ -f $file ]; then	
+	echo -e "${CYAN} $file EXISTS ${NC}" 
+	cd $file
+	sudo python setup.py install
+else
+	
+	echo -e "${CYAN} $file NO PATH CREATED  ${NC}" 
+	#ln -s lib/chglongstone/mysql-db-sync/mysql-sync-db.sh mysql-sync-db.sh
+	
+fi
 
 echo -e "${GREEN}DEFAULT CONFIGURATION FILES ${NC}" 
 source "$DIR/"install_config.sh
@@ -150,5 +161,11 @@ else
 	ln -s lib/chglongstone/mysql-db-sync/mysql-sync-db.sh mysql-sync-db.sh
 	
 fi
+
+
+
+
+
+
 
 exit 0
