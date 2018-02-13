@@ -1,7 +1,7 @@
 {
 	"name": "just-core/scripts",
 	"description": "management scripts for the just-core eco system, basic release management stuff, db syncronization some other things",
-	"license": "GNU",
+	"license": "GPL-3.0-or-later",
 	"keywords": [
 		"scripts",
 		"management",
